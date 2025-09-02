@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir IKM - Indeks Kepuasan Masyarakat</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>') repeat;
+      animation: float 20s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateX(0) translateY(0); }
+      100% { transform: translateX(-50px) translateY(-50px); }
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .header p {
+      font-size: 1.1em;
+      opacity: 0.9;
+      position: relative;
+      z-index: 2;
+    }
+
+    .form-content {
+      padding: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 1.1em;
+    }
+
+    .form-group input[type="text"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 10px;
+      font-size: 1em;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #4facfe;
+      box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .unsur {
+      background: linear-gradient(145deg, #f8f9ff, #e8f1ff);
+      border: none;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .unsur::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      border-radius: 0 2px 2px 0;
+    }
+
+    .unsur:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .unsur strong {
+      display: block;
+      font-size: 1.2em;
+      color: #333;
+      margin-bottom: 15px;
+      padding-left: 15px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      padding-left: 15px;
+    }
+
+    .radio-option {
+      position: relative;
+    }
+
+    .radio-option input[type="radio"] {
+      opacity: 0;
+      position: absolute;
+    }
+
+    .radio-option label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border: 2px solid #ddd;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      color: #666;
+      background: white;
+      margin: 0;
+    }
+
+    .radio-option input[type="radio"]:checked + label {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      border-color: #4facfe;
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+    }
+
+    .radio-option:hover label {
+      border-color: #4facfe;
+      transform: translateY(-2px);
+    }
+
+    .rating-legend {
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(79, 172, 254, 0.05);
+      border-radius: 10px;
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .rating-legend div {
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2em;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+      display: block;
+      margin: 30px auto 0;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+    }
+
+    .submit-btn:active {
+      transform: translateY(-1px);
+    }
+
+    #status {
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .status-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px;
+        border-radius: 15px;
+      }
+
+      .header h1 {
+        font-size: 2em;
+      }
+
+      .form-content {
+        padding: 20px;
+      }
+
+      .radio-group {
+        justify-content: center;
+      }
+
+      .radio-option label {
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: white;
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📊 IKM</h1>
+      <p>Indeks Kepuasan Masyarakat</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+    
+    <div class="form-content">
+      <form id="ikmForm">
+        <div class="form-group">
+          <label>👤 Nama Lengkap:</label>
+          <input type="text" name="nama" required>
+        </div>
+
+        <div class="form-group">
+          <label>🏢 Unit Layanan:</label>
+          <select name="unit" required>
+            <option value="">Pilih Unit Layanan</option>
+            <option value="Dukcapil">Dinas Kependudukan dan Pencatatan Sipil</option>
+            <option value="Puskesmas">Pusat Kesehatan Masyarakat</option>
+            <option value="Perizinan">Dinas Perizinan</option>
+          </select>
+        </div>
+
+        <div class="rating-legend">
+          <strong>📝 Keterangan Penilaian:</strong>
+          <div><strong>1</strong> = Sangat Tidak Puas</div>
+          <div><strong>2</strong> = Tidak Puas</div>
+          <div><strong>3</strong> = Puas</div>
+          <div><strong>4</strong> = Sangat Puas</div>
+        </div>
+
+        <!-- Unsur 1 -->
+        <div class="unsur" data-unsur="1">
+          <strong>📋 1. Persyaratan Pelayanan</strong>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="U1" value="1" id="U1_1" required>
+              <label for="U1_1">1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U1" value="2" id="U1_2">
+              <label for="U1_2">2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U1" value="3" id="U1_3">
+              <label for="U1_3">3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U1" value="4" id="U1_4">
+              <label for="U1_4">4</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unsur 2 -->
+        <div class="unsur" data-unsur="2">
+          <strong>⚙️ 2. Prosedur Layanan</strong>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="U2" value="1" id="U2_1" required>
+              <label for="U2_1">1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U2" value="2" id="U2_2">
+              <label for="U2_2">2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U2" value="3" id="U2_3">
+              <label for="U2_3">3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U2" value="4" id="U2_4">
+              <label for="U2_4">4</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unsur 3 -->
+        <div class="unsur" data-unsur="3">
+          <strong>⏰ 3. Waktu Pelayanan</strong>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="U3" value="1" id="U3_1" required>
+              <label for="U3_1">1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U3" value="2" id="U3_2">
+              <label for="U3_2">2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U3" value="3" id="U3_3">
+              <label for="U3_3">3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U3" value="4" id="U3_4">
+              <label for="U3_4">4</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unsur 4 -->
+        <div class="unsur" data-unsur="4">
+          <strong>💰 4. Biaya/Tarif</strong>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="U4" value="1" id="U4_1" required>
+              <label for="U4_1">1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U4" value="2" id="U4_2">
+              <label for="U4_2">2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U4" value="3" id="U4_3">
+              <label for="U4_3">3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U4" value="4" id="U4_4">
+              <label for="U4_4">4</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unsur 5 -->
+        <div class="unsur" data-unsur="5">
+          <strong>📦 5. Produk Spesifikasi Jenis Layanan</strong>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="U5" value="1" id="U5_1" required>
+              <label for="U5_1">1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U5" value="2" id="U5_2">
+              <label for="U5_2">2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U5" value="3" id="U5_3">
+              <label for="U5_3">3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U5" value="4" id="U5_4">
+              <label for="U5_4">4</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unsur 6 -->
+        <div class="unsur" data-unsur="6">
+          <strong>🎓 6. Kompetensi Pelaksana</strong>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="U6" value="1" id="U6_1" required>
+              <label for="U6_1">1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U6" value="2" id="U6_2">
+              <label for="U6_2">2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U6" value="3" id="U6_3">
+              <label for="U6_3">3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U6" value="4" id="U6_4">
+              <label for="U6_4">4</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unsur 7 -->
+        <div class="unsur" data-unsur="7">
+          <strong>😊 7. Perilaku Pelaksana</strong>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="U7" value="1" id="U7_1" required>
+              <label for="U7_1">1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U7" value="2" id="U7_2">
+              <label for="U7_2">2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U7" value="3" id="U7_3">
+              <label for="U7_3">3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U7" value="4" id="U7_4">
+              <label for="U7_4">4</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unsur 8 -->
+        <div class="unsur" data-unsur="8">
+          <strong>🏗️ 8. Sarana Prasarana</strong>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="U8" value="1" id="U8_1" required>
+              <label for="U8_1">1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U8" value="2" id="U8_2">
+              <label for="U8_2">2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U8" value="3" id="U8_3">
+              <label for="U8_3">3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U8" value="4" id="U8_4">
+              <label for="U8_4">4</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unsur 9 -->
+        <div class="unsur" data-unsur="9">
+          <strong>📞 9. Penanganan Pengaduan</strong>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="U9" value="1" id="U9_1" required>
+              <label for="U9_1">1</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U9" value="2" id="U9_2">
+              <label for="U9_2">2</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U9" value="3" id="U9_3">
+              <label for="U9_3">3</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="U9" value="4" id="U9_4">
+              <label for="U9_4">4</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>💬 Kritik dan Saran:</label>
+          <textarea name="kritik" placeholder="Berikan kritik dan saran Anda untuk meningkatkan kualitas pelayanan..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">🚀 Kirim Evaluasi</button>
+      </form>
+
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <script>
+    // Ganti URL ini dengan URL Web App dari Google Apps Script
+    const scriptURL = "https://script.google.com/macros/s/AKfycbw_LA2AxTPYLQ_wQ4Z7wYWiSAsi0MAJnrXY5_ZRGN-XMNcHh9uBsSjmAc4O8FLmgDY6/exec";
+
+    // Progress bar functionality
+    function updateProgress() {
+      const totalFields = 11; // 2 basic fields + 9 unsur
+      let filledFields = 0;
+      
+      // Check nama and unit
+      if (document.querySelector('input[name="nama"]').value.trim()) filledFields++;
+      if (document.querySelector('select[name="unit"]').value) filledFields++;
+      
+      // Check each unsur
+      for (let i = 1; i <= 9; i++) {
+        if (document.querySelector(`input[name="U${i}"]:checked`)) filledFields++;
+      }
+      
+      const progress = (filledFields / totalFields) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
+    }
+
+    // Add event listeners for progress tracking
+    document.addEventListener('input', updateProgress);
+    document.addEventListener('change', updateProgress);
+
+    // Form submission
+    document.getElementById("ikmForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = document.querySelector('.submit-btn');
+      const status = document.getElementById('status');
+      
+      // Show loading state
+      submitBtn.textContent = '⏳ Mengirim...';
+      submitBtn.disabled = true;
+      
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      
+      try {
+        await fetch(scriptURL, {
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        
+        status.className = 'status-success';
+        status.textContent = '✅ Data berhasil dikirim! Terima kasih atas partisipasi Anda.';
+        
+        // Reset form after successful submission
+        setTimeout(() => {
+          document.getElementById('ikmForm').reset();
+          updateProgress();
+          status.textContent = '';
+          status.className = '';
+        }, 3000);
+        
+      } catch (error) {
+        status.className = 'status-error';
+        status.textContent = '❌ Gagal mengirim data: ' + error.message;
+      } finally {
+        submitBtn.textContent = '🚀 Kirim Evaluasi';
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Initial progress update
+    updateProgress();
+
+    // Add smooth scroll to top when form is submitted
+    document.getElementById('ikmForm').addEventListener('submit', () => {
+      setTimeout(() => {
+        document.querySelector('.header').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    });
+  </script>
+</body>
+</html>
