@@ -259,6 +259,160 @@
       border: 1px solid #f5c6cb;
     }
 
+    /* Success Modal */
+    .success-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .success-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .success-content {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      transform: scale(0.7);
+      transition: transform 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .success-modal.show .success-content {
+      transform: scale(1);
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2.5em;
+      animation: bounce 0.6s ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 60%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-20px);
+      }
+      80% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .success-title {
+      font-size: 2em;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .success-message {
+      font-size: 1.1em;
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .success-close-btn {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+    }
+
+    .success-close-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+    }
+
+    /* Confetti Animation */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: #f0f0f0;
+      animation: confetti-fall 3s linear forwards;
+      z-index: 1001;
+    }
+
+    @keyframes confetti-fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    /* Loading Animation */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .loading-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #4facfe;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #333;
+      text-align: center;
+    }
+
     @media (max-width: 768px) {
       .container {
         margin: 10px;
@@ -453,7 +607,7 @@
 
         <!-- Unsur 6 -->
         <div class="unsur" data-unsur="6">
-          <strong>🎓 6. Kompetensi Pelaksana</strong>
+          <strong>🎓 6. Kompetensi Staff</strong>
           <div class="radio-group">
             <div class="radio-option">
               <input type="radio" name="U6" value="1" id="U6_1" required>
@@ -476,7 +630,7 @@
 
         <!-- Unsur 7 -->
         <div class="unsur" data-unsur="7">
-          <strong>😊 7. Perilaku Pelaksana</strong>
+          <strong>😊 7. Perilaku Staff</strong>
           <div class="radio-group">
             <div class="radio-option">
               <input type="radio" name="U7" value="1" id="U7_1" required>
@@ -555,6 +709,27 @@
     </div>
   </div>
 
+  <!-- Success Modal -->
+  <div id="successModal" class="success-modal">
+    <div class="success-content">
+      <div class="success-icon">✅</div>
+      <h2 class="success-title">Berhasil Terkirim!</h2>
+      <p class="success-message">
+        Terima kasih atas partisipasi Anda dalam survei kepuasan masyarakat. 
+        Feedback Anda sangat berharga untuk meningkatkan kualitas pelayanan publik.
+      </p>
+      <button class="success-close-btn" onclick="closeSuccessModal()">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div style="text-align: center;">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Sedang mengirim data...</div>
+    </div>
+  </div>
+
   <script>
     // Ganti URL ini dengan URL Web App dari Google Apps Script
     const scriptURL = "https://script.google.com/macros/s/AKfycbw_LA2AxTPYLQ_wQ4Z7wYWiSAsi0MAJnrXY5_ZRGN-XMNcHh9uBsSjmAc4O8FLmgDY6/exec";
@@ -587,9 +762,10 @@
       
       const submitBtn = document.querySelector('.submit-btn');
       const status = document.getElementById('status');
+      const loadingOverlay = document.getElementById('loadingOverlay');
       
-      // Show loading state
-      submitBtn.textContent = '⏳ Mengirim...';
+      // Show loading overlay
+      loadingOverlay.classList.add('show');
       submitBtn.disabled = true;
       
       const formData = new FormData(e.target);
@@ -605,23 +781,73 @@
           },
         });
         
-        status.className = 'status-success';
-        status.textContent = '✅ Data berhasil dikirim! Terima kasih atas partisipasi Anda.';
+        // Hide loading overlay
+        loadingOverlay.classList.remove('show');
+        
+        // Show success modal with confetti
+        showSuccessModal();
+        createConfetti();
         
         // Reset form after successful submission
         setTimeout(() => {
           document.getElementById('ikmForm').reset();
           updateProgress();
-          status.textContent = '';
-          status.className = '';
-        }, 3000);
+        }, 1000);
         
       } catch (error) {
+        // Hide loading overlay
+        loadingOverlay.classList.remove('show');
+        
         status.className = 'status-error';
         status.textContent = '❌ Gagal mengirim data: ' + error.message;
+        
+        // Hide error message after 5 seconds
+        setTimeout(() => {
+          status.textContent = '';
+          status.className = '';
+        }, 5000);
       } finally {
-        submitBtn.textContent = '🚀 Kirim Evaluasi';
         submitBtn.disabled = false;
+      }
+    });
+
+    // Success Modal Functions
+    function showSuccessModal() {
+      const modal = document.getElementById('successModal');
+      modal.classList.add('show');
+    }
+
+    function closeSuccessModal() {
+      const modal = document.getElementById('successModal');
+      modal.classList.remove('show');
+    }
+
+    // Confetti Animation
+    function createConfetti() {
+      const colors = ['#4facfe', '#00f2fe', '#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'];
+      
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
+          confetti.style.animationDelay = Math.random() * 0.5 + 's';
+          document.body.appendChild(confetti);
+          
+          // Remove confetti after animation
+          setTimeout(() => {
+            confetti.remove();
+          }, 3500);
+        }, i * 50);
+      }
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('successModal').addEventListener('click', (e) => {
+      if (e.target.id === 'successModal') {
+        closeSuccessModal();
       }
     });
 
